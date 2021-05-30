@@ -1,8 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useMyContext } from '../../context';
 import Loader from '../Loader/Loader';
+import EditPostModal from './EditPostModal';
 
 const Profile = () => {
+    const { editPostHandler } = useMyContext();
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [processing, setProcessing] = useState(false)
@@ -14,9 +17,6 @@ const Profile = () => {
             })
     }, []);
 
-    const postUpdateHandler = id => {
-        axios.patch(`https://jsonplaceholder.typicode.com/posts/${id}`)
-    }
     const postDeleteHandler = id => {
         setProcessing(true)
         axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
@@ -54,41 +54,24 @@ const Profile = () => {
                     <>
                         <div className="row gy-4">
                             {
-                                userPosts.map(({ id, title, body }) =>
-                                    <div key={id} className="col-sm-6">
+                                userPosts.map((post) =>
+                                    <div key={post.id} className="col-sm-6">
                                         <div className="card h-100">
                                             <div className="card-body">
-                                                <h5 className="card-title">{title}</h5>
-                                                <p className="card-text">{body}</p>
+                                                <h5 className="card-title">{post.title}</h5>
+                                                <p className="card-text">{post.body}</p>
                                             </div>
                                             <div className="card-footer border-top-0 mb-2">
-
-                                                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                <button
+                                                    onClick={() => editPostHandler(post)}
+                                                    type="button"
+                                                    className="btn btn-primary"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#staticBackdrop">
                                                     Edit
                                                 </button>
-
-
-                                                <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                    <div className="modal-dialog">
-                                                        <div className="modal-content">
-                                                            <div className="modal-header">
-                                                                <h5 className="modal-title" id="staticBackdropLabel">Edit Post</h5>
-                                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div className="modal-body">
-                                                                <input type="text" defaultValue={e => e.target.value} placeholder="Title" className="form-control mb-3" />
-                                                                <textarea placeholder="Description" defaultValue={e => e.target.value} rows="5" className="form-control" />
-                                                            </div>
-                                                            <div className="modal-footer">
-                                                                <button type="button" className="btn btn-primary">Update</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {/* <button className="btn btn-info mx-3 text-white">Edit</button> */}
-
-                                                <button className="btn btn-danger mx-3" onClick={() => postDeleteHandler(id)}>Delete</button>
+                                                <EditPostModal />
+                                                <button className="btn btn-danger mx-3" onClick={() => postDeleteHandler(post.id)}>Delete</button>
                                             </div>
                                         </div>
                                     </div>)
