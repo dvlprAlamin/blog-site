@@ -20,11 +20,11 @@ const Users = () => {
 
             <h2 className="text-center my-4">Users List</h2>
             <div className="row">
-                <div className="col-md-4 d-flex">
+                <div className="col-md-4 my-2 d-flex">
                     <input placeholder="Search" type="text" className="form-control" />
                     <button className="btn btn-primary">Search</button>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-4 my-2">
                     <select className="form-control" onChange={e => setSortBy(e.target.value)}>
                         <option disabled selected hidden>Sort By</option>
                         <option value="nameAsc">Name ASC</option>
@@ -33,7 +33,7 @@ const Users = () => {
                         <option value="emailDsc">Email DSC</option>
                     </select>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-4 my-2">
                     <select className="form-control" onChange={e => setUsersPerPage(e.target.value)}>
                         <option disabled selected hidden>Set User Per Page</option>
                         <option value="3">3</option>

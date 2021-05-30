@@ -1,10 +1,8 @@
 import React from 'react';
-import './App.css'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import Home from './components/Home/Home';
 import Profile from './components/Profile/Profile';
