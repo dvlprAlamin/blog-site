@@ -1,12 +1,17 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+import Loader from '../Loader/Loader';
 
 const Home = () => {
+    const history = useHistory();
     const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
         axios.get('https://jsonplaceholder.typicode.com/posts')
             .then(res => {
                 setPosts(res.data)
+                setLoading(false)
             })
     }, [])
     const postPerPage = 10;
@@ -28,18 +33,37 @@ const Home = () => {
         setCount(count + postPerPage);
         setShowLoadMore(count + postPerPage < posts.length)
     }
+
+
     return (
-        <div>
+        <div className="container">
             {
-                postToShow.map(({ id, title, body }) =>
-                    <div key={id} style={{ width: 500, border: '1px solid #ddd', margin: '5px auto', padding: 10 }}>
-                        <h2>{title}</h2>
-                        <p>{body}</p>
-                    </div>)
-            }
-            {
-                showLoadMore && <button onClick={countBtnHandler}>Load More</button>
-            }
+                loading ? <Loader /> :
+                    <>
+                        <div className="row gy-4">
+                            {
+                                postToShow.map((post) =>
+                                    <div key={post.id} className="col-sm-6">
+                                        <div className="card h-100">
+                                            <div className="card-body">
+                                                <h5 className="card-title">{post.title}</h5>
+                                                <p className="card-text">{post.body}</p>
+                                            </div>
+                                            <div className="card-footer border-top-0 mb-2 text-center">
+                                                <button
+                                                    onClick={() => history.push(`/post/${post.id}`)}
+                                                    className="btn btn-info text-white">View Details</button>
+                                            </div>
+                                        </div>
+                                    </div>)
+                            }
+                        </div>
+                        <div className="text-center my-4">
+                            {
+                                showLoadMore && <button className="btn btn-primary" onClick={countBtnHandler}>Load More</button>
+                            }
+                        </div>
+                    </>}
         </div>
     );
 };
