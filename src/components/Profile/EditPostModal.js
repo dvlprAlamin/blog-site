@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useMyContext } from '../../context';
 
 const EditPostModal = () => {
-    const { editPost } = useMyContext();
+    const { editPost, userPosts, setUserPosts } = useMyContext();
     const { id, title, body } = editPost;
 
     const titleRef = useRef();
@@ -20,9 +20,18 @@ const EditPostModal = () => {
         console.log(updatedPost);
         axios.patch(`https://jsonplaceholder.typicode.com/posts/${id}`, updatedPost)
             .then(res => {
-                console.log(res);
-                res.data && e.target.reset();
-                document.getElementById('modal-close').click();
+                if (res.data) {
+                    e.target.reset();
+                    document.getElementById('modal-close').click();
+                    // find index of updated post
+                    const indexOfUpdatedPost = userPosts.findIndex(post => post.id === id);
+                    // remove previous version of updated post 
+                    const updatedNewPosts = userPosts.filter(post => post.id !== id);
+                    // add new updated post
+                    updatedNewPosts.splice(indexOfUpdatedPost, 0, updatedPost)
+                    setUserPosts(updatedNewPosts)
+                    console.log(indexOfUpdatedPost, updatedNewPosts);
+                }
             })
     }
     return (
@@ -35,8 +44,8 @@ const EditPostModal = () => {
                     </div>
                     <form onSubmit={postUpdateHandler}>
                         <div className="modal-body">
-                            <input type="text" ref={titleRef} defaultValue={title} placeholder="Title" className="form-control mb-3" />
-                            <textarea placeholder="Description" ref={bodyRef} defaultValue={body} rows="5" className="form-control" />
+                            <input type="text" ref={titleRef} required defaultValue={title} placeholder="Title" className="form-control mb-3" />
+                            <textarea placeholder="Description" required ref={bodyRef} defaultValue={body} rows="5" className="form-control" />
                         </div>
                         <div className="modal-footer">
                             <button type="submit" className="btn btn-primary">Update</button>

@@ -5,8 +5,9 @@ import Loader from '../Loader/Loader';
 import EditPostModal from './EditPostModal';
 
 const Profile = () => {
+    const { userPosts, setUserPosts } = useMyContext();
     const { editPostHandler } = useMyContext();
-    const [userPosts, setUserPosts] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [processing, setProcessing] = useState(false)
     useEffect(() => {
@@ -48,7 +49,7 @@ const Profile = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container mt-4">
             {
                 loading ? <Loader /> :
                     <>

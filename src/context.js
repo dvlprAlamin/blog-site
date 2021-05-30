@@ -51,6 +51,7 @@ export const ContextProvider = ({ children }) => {
     const [editPost, setEditPost] = useState({})
     const editPostHandler = post => setEditPost(post)
 
+    const [userPosts, setUserPosts] = useState([]);
     const value = {
         users,
         currentUser,
@@ -60,6 +61,8 @@ export const ContextProvider = ({ children }) => {
         setUsersPerPage,
         editPostHandler,
         editPost,
+        userPosts,
+        setUserPosts
     }
     return (
         <MyContext.Provider value={value}>

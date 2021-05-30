@@ -21,7 +21,7 @@ const UserDetails = () => {
     }, [id])
     console.log(userDetails, users, id);
     return (
-        <div className="container">
+        <div className="container my-4">
             {loading ? <Loader /> :
                 <>
                     <h2 className="text-center text-primary">{name}</h2>
@@ -69,10 +69,12 @@ const UserDetails = () => {
                     <div className="row g-4">
                         {
                             userPosts.map(({ id, title, body }) => (
-                                <div key={id} className="col-md-4">
-                                    <div className="shadow h-100 p-4">
-                                        <h5>{title}</h5>
-                                        <p>{body}</p>
+                                <div key={id} className="col-md-4 col-sm-6 col-xs-12">
+                                    <div className="card h-100">
+                                        <div className="card-body">
+                                            <h5 className="card-title">{title}</h5>
+                                            <p className="card-text">{body}</p>
+                                        </div>
                                     </div>
                                 </div>
                             ))

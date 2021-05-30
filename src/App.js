@@ -12,15 +12,12 @@ import PostDetails from './components/PostDetails/PostDetails';
 import Users from './components/Users/Users';
 import { ContextProvider } from './context';
 import UserDetails from './components/UserDetails/UserDetails';
+import Navigation from './components/Navigation/Navigation';
 const App = () => {
   return (
     <ContextProvider>
       <Router>
-        <div>
-          <Link to='/'>Home</Link>
-          <Link to='/Profile'>Profile</Link>
-          <Link to='/users'>Users</Link>
-        </div>
+        <Navigation />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/profile" component={Profile} />

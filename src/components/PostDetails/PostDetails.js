@@ -20,7 +20,7 @@ const PostDetails = () => {
     console.log(post, comments);
 
     return (
-        <div className="container">
+        <div className="container mt-5">
             {
                 (comments.length === 0 || post === {}) ? <Loader /> :
                     <>
