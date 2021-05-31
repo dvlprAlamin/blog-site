@@ -22,6 +22,8 @@ const PostDetails = () => {
             {
                 (comments.length === 0 || post === {}) ? <Loader /> :
                     <>
+
+                        <h6>User ID: {post.userId}</h6>
                         <h2 className="text-info">{post.title}</h2>
                         <p>{post.body}</p>
                         <h4 className="mt-4">Comments:</h4>

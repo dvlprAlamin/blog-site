@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useMyContext } from '../../context';
 import Loader from '../Loader/Loader';
 import EditPostModal from './EditPostModal';
@@ -7,7 +7,8 @@ import EditPostModal from './EditPostModal';
 const Profile = () => {
     const { userPosts, setUserPosts } = useMyContext();
     const { editPostHandler } = useMyContext();
-
+    const titleRef = useRef();
+    const bodyRef = useRef();
     const [loading, setLoading] = useState(true);
     const [processing, setProcessing] = useState(false)
     useEffect(() => {
@@ -16,7 +17,7 @@ const Profile = () => {
                 setUserPosts(res.data);
                 setLoading(false)
             })
-    }, []);
+    }, [setUserPosts]);
 
     const postDeleteHandler = id => {
         setProcessing(true)
@@ -28,16 +29,16 @@ const Profile = () => {
                 }
             })
     }
-    const [postData, setPostData] = useState({})
-    const onBlurHandler = e => {
-        const data = { ...postData };
-        data[e.target.name] = e.target.value;
-        data.userId = 2;
-        setPostData(data)
-    }
+
     const addPostHandler = e => {
         e.preventDefault();
         setProcessing(true)
+        const postData = {
+            id: 101,
+            userId: 2,
+            title: titleRef.current.value,
+            body: bodyRef.current.value
+        }
         axios.post('https://jsonplaceholder.typicode.com/posts', postData)
             .then(res => {
                 if (res.data) {
@@ -53,6 +54,7 @@ const Profile = () => {
             {
                 loading ? <Loader /> :
                     <>
+                        <h2 className="text-center text-primary mb-4">My Posts</h2>
                         <div className="row gy-4">
                             {
                                 userPosts.map((post) =>
@@ -79,11 +81,27 @@ const Profile = () => {
                             }
                         </div>
                         <div className="row my-5 w-50 mx-auto">
-                            <h3 className="text-center">Add New Post</h3>
+                            <h2 className="text-center text-primary mb-4">Add New Post</h2>
                             <form onSubmit={addPostHandler} className="col-12">
-                                <input placeholder="Post title" name="title" required onBlur={onBlurHandler} type="text" className="form-control" />
-                                <textarea placeholder="Description" rows="5" required name="body" onBlur={onBlurHandler} className="form-control my-4" />
-                                <button type="submit" className="btn btn-primary w-100">Add post</button>
+                                <input
+                                    placeholder="Post title"
+                                    name="title"
+                                    required
+                                    ref={titleRef}
+                                    type="text"
+                                    className="form-control" />
+                                <textarea
+                                    placeholder="Description"
+                                    rows="5"
+                                    required
+                                    name="body"
+                                    ref={bodyRef}
+                                    className="form-control my-4" />
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary w-100">
+                                    Add post
+                                </button>
                             </form>
                         </div>
                         {processing && <Loader />}

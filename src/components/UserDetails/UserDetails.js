@@ -19,7 +19,6 @@ const UserDetails = () => {
                 setLoading(false)
             })
     }, [id])
-    console.log(userDetails, users, id);
     return (
         <div className="container my-4">
             {loading ? <Loader /> :

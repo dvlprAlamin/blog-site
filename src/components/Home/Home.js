@@ -40,6 +40,7 @@ const Home = () => {
             {
                 loading ? <Loader /> :
                     <>
+                        <h2 className="text-center text-primary mb-4">All Posts</h2>
                         <div className="row gy-4">
                             {
                                 postToShow.map((post) =>

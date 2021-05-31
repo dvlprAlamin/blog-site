@@ -14,8 +14,8 @@ export const ContextProvider = ({ children }) => {
                 setUsers(res.data);
             })
     }, []);
-    const [currentUsers, setCurrentUsers] = useState(users);
-
+    const [usersOnPaginate, setUserOnPaginate] = useState(users)
+    const [currentUsers, setCurrentUsers] = useState(usersOnPaginate);
     // search
     const [query, setQuery] = useState('');
     const [searchBy, setSearchBy] = useState(localStorage.getItem('searchBy') || 'name');
@@ -23,14 +23,14 @@ export const ContextProvider = ({ children }) => {
 
     useEffect(() => {
         if (searchBy === 'all') {
-            setCurrentUsers(users.filter(user =>
+            setCurrentUsers(usersOnPaginate.filter(user =>
                 user.name.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
                 user.email.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
                 user.website.toLowerCase().indexOf(query.toLowerCase()) > -1));
         } else {
-            setCurrentUsers(users.filter(user => user[searchBy].toLowerCase().indexOf(query.toLowerCase()) > -1));
+            setCurrentUsers(usersOnPaginate.filter(user => user[searchBy].toLowerCase().indexOf(query.toLowerCase()) > -1));
         }
-    }, [searchBy, query, users])
+    }, [searchBy, query, usersOnPaginate])
 
 
     // sorting 
@@ -57,14 +57,13 @@ export const ContextProvider = ({ children }) => {
     const [currentPage, setCurrentPage] = useState(localStorage.getItem('pageNumber') || 1);
     const [usersPerPage, setUsersPerPage] = useState(localStorage.getItem('usersPerPage') || 'all');
 
-
     useEffect(() => {
         const indexOfLastUser = currentPage * usersPerPage;
         const indexOfFirstUser = indexOfLastUser - usersPerPage;
         if (usersPerPage === 'all') {
-            setCurrentUsers(users);
+            setUserOnPaginate(users);
         } else {
-            setCurrentUsers(users.slice(indexOfFirstUser, indexOfLastUser));
+            setUserOnPaginate(users.slice(indexOfFirstUser, indexOfLastUser));
         }
     }, [usersPerPage, currentPage, users])
 

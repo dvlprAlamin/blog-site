@@ -13,11 +13,11 @@ const EditPostModal = () => {
     const postUpdateHandler = e => {
         e.preventDefault();
         const updatedPost = {
+            id,
             userId: 2,
             title: titleRef.current.value,
             body: bodyRef.current.value
         }
-        console.log(updatedPost);
         axios.patch(`https://jsonplaceholder.typicode.com/posts/${id}`, updatedPost)
             .then(res => {
                 if (res.data) {
@@ -30,12 +30,11 @@ const EditPostModal = () => {
                     // add new updated post
                     updatedNewPosts.splice(indexOfUpdatedPost, 0, updatedPost)
                     setUserPosts(updatedNewPosts)
-                    console.log(indexOfUpdatedPost, updatedNewPosts);
                 }
             })
     }
     return (
-        <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">

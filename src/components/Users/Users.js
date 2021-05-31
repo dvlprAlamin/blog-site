@@ -9,7 +9,7 @@ const Users = () => {
     return (
         <div className="container">
 
-            <h2 className="text-center my-4">Users List</h2>
+            <h2 className="text-center text-primary my-4">Users List</h2>
             <div className="row">
                 <div className="col-md-4 my-2 d-flex">
                     <input
