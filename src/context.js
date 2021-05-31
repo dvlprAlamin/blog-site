@@ -14,6 +14,43 @@ export const ContextProvider = ({ children }) => {
                 setUsers(res.data);
             })
     }, []);
+    const [currentUsers, setCurrentUsers] = useState([]);
+
+    // search
+    const [query, setQuery] = useState('');
+    const [searchBy, setSearchBy] = useState(localStorage.getItem('searchBy') || 'name');
+    let currentUser = [];
+
+    if (searchBy === 'all') {
+        currentUser = users.filter(user =>
+            user.name.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+            user.email.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+            user.website.toLowerCase().indexOf(query.toLowerCase()) > -1);
+    } else {
+        currentUser = users.filter(user => user[searchBy].toLowerCase().indexOf(query.toLowerCase()) > -1);
+    }
+
+
+    // switch (searchBy) {
+    //     case 'byName':
+    //         currentUser = users.filter(user => user.name.toLowerCase().indexOf(query.toLowerCase()) > -1)
+    //         break;
+    //     case 'byEmail':
+    //         currentUser = users.filter(user => user.email.toLowerCase().indexOf(query.toLowerCase()) > -1)
+    //         break;
+    //     case 'byWebsite':
+    //         currentUser = users.filter(user => user.website.toLowerCase().indexOf(query.toLowerCase()) > -1)
+    //         break;
+    //     case 'byAll':
+    //         currentUser = users.filter(user =>
+    //             user.name.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+    //             user.email.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+    //             user.website.toLowerCase().indexOf(query.toLowerCase()) > -1);
+    //         break;
+
+    //     default:
+    //         break;
+    // }
     // sorting 
     const [sortBy, setSortBy] = useState(localStorage.getItem('sortBy') || null)
     switch (sortBy) {
@@ -32,29 +69,37 @@ export const ContextProvider = ({ children }) => {
         default:
             break;
     }
+
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage, setUsersPerPage] = useState(localStorage.getItem('usersPerPage') || 'all');
 
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    let currentUser = [];
 
-    if (usersPerPage === 'all') {
-        currentUser = users;
-    } else {
-        currentUser = users.slice(indexOfFirstUser, indexOfLastUser);
-    }
+    // if (usersPerPage === 'all') {
+    //     currentUser = users;
+    // } else {
+    //     currentUser = users.slice(indexOfFirstUser, indexOfLastUser);
+    // }
     const paginate = (number) => setCurrentPage(number)
+
+
 
     // Edit post 
     const [editPost, setEditPost] = useState({})
     const editPostHandler = post => setEditPost(post)
 
+    // single user posts
     const [userPosts, setUserPosts] = useState([]);
+
     const value = {
         users,
         currentUser,
+        query,
+        setQuery,
+        searchBy,
+        setSearchBy,
         setSortBy,
         paginate,
         usersPerPage,

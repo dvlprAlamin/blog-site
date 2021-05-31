@@ -4,25 +4,33 @@ import { useMyContext } from '../../context';
 import Pagination from './Pagination';
 
 const Users = () => {
-    const { setSortBy, setUsersPerPage, currentUser } = useMyContext()
+    const { query, setQuery, setSearchBy, setSortBy, setUsersPerPage, currentUser } = useMyContext()
     const history = useHistory();
-
-
-    // const [search, setSearch] = useState('')
-    // useEffect(() => {
-    //     setUsers(users.filter(user => user.name === search))
-    // }, [search])
-    // console.log(users);
-
-
     return (
         <div className="container">
 
             <h2 className="text-center my-4">Users List</h2>
             <div className="row">
                 <div className="col-md-4 my-2 d-flex">
-                    <input placeholder="Search" type="text" className="form-control" />
-                    <button className="btn btn-primary">Search</button>
+                    <input
+                        placeholder="Search..."
+                        type="text"
+                        className="form-control"
+                        value={query}
+                        onChange={e => setQuery(e.target.value)} />
+                    <select
+                        className="form-control"
+                        defaultValue={localStorage.getItem('searchBy') || "searchBy"}
+                        onChange={e => {
+                            setSearchBy(e.target.value);
+                            localStorage.setItem('searchBy', e.target.value);
+                        }}>
+                        <option value="searchBy" disabled hidden>Search By</option>
+                        <option value="name">Search By Name</option>
+                        <option value="email">Search By Email</option>
+                        <option value="website">Search By Website</option>
+                        <option value="all">Search By All</option>
+                    </select>
                 </div>
                 <div className="col-md-4 my-2">
                     <select
@@ -64,7 +72,7 @@ const Users = () => {
                 </thead>
                 <tbody>
                     {
-                        currentUser.map(user =>
+                        currentUser.map(user => (
                             <tr key={user.id}>
                                 <td
                                     style={{ cursor: 'pointer' }}
@@ -72,7 +80,7 @@ const Users = () => {
                                 >{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>{user.website}</td>
-                            </tr>)
+                            </tr>))
                     }
                 </tbody>
             </table>
