@@ -62,7 +62,7 @@ const Users = () => {
                     </select>
                 </div>
             </div>
-            <table className="table">
+            <table className="table table-hover" style={{ wordBreak: 'break-word' }}>
                 <thead>
                     <tr>
                         <th scope="col">Name</th>
