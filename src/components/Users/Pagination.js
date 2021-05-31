@@ -15,7 +15,10 @@ const Pagination = () => {
                         <li key={number} >
                             <button
                                 className="btn btn-outline-info"
-                                onClick={() => paginate(number)}>
+                                onClick={() => {
+                                    paginate(number);
+                                    localStorage.setItem('pageNumber', number);
+                                }}>
                                 {number}
                             </button>
                         </li>))

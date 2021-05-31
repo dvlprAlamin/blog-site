@@ -31,28 +31,9 @@ export const ContextProvider = ({ children }) => {
     }
 
 
-    // switch (searchBy) {
-    //     case 'byName':
-    //         currentUser = users.filter(user => user.name.toLowerCase().indexOf(query.toLowerCase()) > -1)
-    //         break;
-    //     case 'byEmail':
-    //         currentUser = users.filter(user => user.email.toLowerCase().indexOf(query.toLowerCase()) > -1)
-    //         break;
-    //     case 'byWebsite':
-    //         currentUser = users.filter(user => user.website.toLowerCase().indexOf(query.toLowerCase()) > -1)
-    //         break;
-    //     case 'byAll':
-    //         currentUser = users.filter(user =>
-    //             user.name.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
-    //             user.email.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
-    //             user.website.toLowerCase().indexOf(query.toLowerCase()) > -1);
-    //         break;
-
-    //     default:
-    //         break;
-    // }
     // sorting 
     const [sortBy, setSortBy] = useState(localStorage.getItem('sortBy') || null)
+
     switch (sortBy) {
         case 'nameAsc':
             users.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
@@ -71,17 +52,17 @@ export const ContextProvider = ({ children }) => {
     }
 
     // pagination
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(localStorage.getItem('pageNumber') || 1);
     const [usersPerPage, setUsersPerPage] = useState(localStorage.getItem('usersPerPage') || 'all');
 
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
 
-    // if (usersPerPage === 'all') {
-    //     currentUser = users;
-    // } else {
-    //     currentUser = users.slice(indexOfFirstUser, indexOfLastUser);
-    // }
+    if (usersPerPage === 'all') {
+        currentUser = users;
+    } else {
+        currentUser = users.slice(indexOfFirstUser, indexOfLastUser);
+    }
     const paginate = (number) => setCurrentPage(number)
 
 
