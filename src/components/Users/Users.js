@@ -4,7 +4,7 @@ import { useMyContext } from '../../context';
 import Pagination from './Pagination';
 
 const Users = () => {
-    const { query, setQuery, setSearchBy, setSortBy, setUsersPerPage, currentUser } = useMyContext()
+    const { query, setQuery, setSearchBy, setSortBy, setUsersPerPage, currentUsers } = useMyContext()
     const history = useHistory();
     return (
         <div className="container">
@@ -72,7 +72,7 @@ const Users = () => {
                 </thead>
                 <tbody>
                     {
-                        currentUser.map(user => (
+                        currentUsers.map(user => (
                             <tr key={user.id}>
                                 <td
                                     style={{ cursor: 'pointer' }}

@@ -14,21 +14,23 @@ export const ContextProvider = ({ children }) => {
                 setUsers(res.data);
             })
     }, []);
-    const [currentUsers, setCurrentUsers] = useState([]);
+    const [currentUsers, setCurrentUsers] = useState(users);
 
     // search
     const [query, setQuery] = useState('');
     const [searchBy, setSearchBy] = useState(localStorage.getItem('searchBy') || 'name');
-    let currentUser = [];
 
-    if (searchBy === 'all') {
-        currentUser = users.filter(user =>
-            user.name.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
-            user.email.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
-            user.website.toLowerCase().indexOf(query.toLowerCase()) > -1);
-    } else {
-        currentUser = users.filter(user => user[searchBy].toLowerCase().indexOf(query.toLowerCase()) > -1);
-    }
+
+    useEffect(() => {
+        if (searchBy === 'all') {
+            setCurrentUsers(users.filter(user =>
+                user.name.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+                user.email.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+                user.website.toLowerCase().indexOf(query.toLowerCase()) > -1));
+        } else {
+            setCurrentUsers(users.filter(user => user[searchBy].toLowerCase().indexOf(query.toLowerCase()) > -1));
+        }
+    }, [searchBy, query, users])
 
 
     // sorting 
@@ -55,17 +57,18 @@ export const ContextProvider = ({ children }) => {
     const [currentPage, setCurrentPage] = useState(localStorage.getItem('pageNumber') || 1);
     const [usersPerPage, setUsersPerPage] = useState(localStorage.getItem('usersPerPage') || 'all');
 
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
 
-    if (usersPerPage === 'all') {
-        currentUser = users;
-    } else {
-        currentUser = users.slice(indexOfFirstUser, indexOfLastUser);
-    }
+    useEffect(() => {
+        const indexOfLastUser = currentPage * usersPerPage;
+        const indexOfFirstUser = indexOfLastUser - usersPerPage;
+        if (usersPerPage === 'all') {
+            setCurrentUsers(users);
+        } else {
+            setCurrentUsers(users.slice(indexOfFirstUser, indexOfLastUser));
+        }
+    }, [usersPerPage, currentPage, users])
+
     const paginate = (number) => setCurrentPage(number)
-
-
 
     // Edit post 
     const [editPost, setEditPost] = useState({})
@@ -76,7 +79,7 @@ export const ContextProvider = ({ children }) => {
 
     const value = {
         users,
-        currentUser,
+        currentUsers,
         query,
         setQuery,
         searchBy,
