@@ -38,16 +38,16 @@ export const ContextProvider = ({ children }) => {
 
     switch (sortBy) {
         case 'nameAsc':
-            users.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+            currentUsers.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
             break;
         case 'nameDsc':
-            users.sort((a, b) => (a.name < b.name) ? 1 : ((b.name < a.name) ? -1 : 0));
+            currentUsers.sort((a, b) => (a.name < b.name) ? 1 : ((b.name < a.name) ? -1 : 0));
             break;
         case 'emailAsc':
-            users.sort((a, b) => (a.email > b.email) ? 1 : ((b.email > a.email) ? -1 : 0));
+            currentUsers.sort((a, b) => (a.email > b.email) ? 1 : ((b.email > a.email) ? -1 : 0));
             break;
         case 'emailDsc':
-            users.sort((a, b) => (a.email < b.email) ? 1 : ((b.email < a.email) ? -1 : 0));
+            currentUsers.sort((a, b) => (a.email < b.email) ? 1 : ((b.email < a.email) ? -1 : 0));
             break;
         default:
             break;

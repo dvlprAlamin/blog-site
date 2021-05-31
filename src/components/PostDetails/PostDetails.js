@@ -17,21 +17,19 @@ const PostDetails = () => {
                 setComments(res.data)
             })
     }, [id])
-    console.log(post, comments);
-
     return (
         <div className="container mt-5">
             {
                 (comments.length === 0 || post === {}) ? <Loader /> :
                     <>
-                        <h1>{post.title}</h1>
+                        <h2 className="text-info">{post.title}</h2>
                         <p>{post.body}</p>
-                        <h2>Comments:</h2>
+                        <h4 className="mt-4">Comments:</h4>
                         {
                             comments.map(({ id, name, email, body }) =>
-                                <div className="border my-2 p-3" key={id}>
-                                    <h4>{name}</h4>
-                                    <h5>{email}</h5>
+                                <div className="border-bottom my-2 py-3" key={id}>
+                                    <h5>{name}</h5>
+                                    <h6>{email}</h6>
                                     <p>{body}</p>
                                 </div>)
                         }
