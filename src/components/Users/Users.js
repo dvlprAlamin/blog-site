@@ -25,8 +25,14 @@ const Users = () => {
                     <button className="btn btn-primary">Search</button>
                 </div>
                 <div className="col-md-4 my-2">
-                    <select className="form-control" onChange={e => setSortBy(e.target.value)}>
-                        <option disabled selected hidden>Sort By</option>
+                    <select
+                        className="form-control"
+                        defaultValue={localStorage.getItem('sortBy') || "sortBy"}
+                        onChange={e => {
+                            setSortBy(e.target.value);
+                            localStorage.setItem('sortBy', e.target.value);
+                        }}>
+                        <option value="sortBy" disabled hidden>Sort By</option>
                         <option value="nameAsc">Name ASC</option>
                         <option value="nameDsc">Name DSC</option>
                         <option value="emailAsc">Email ASC</option>
@@ -34,8 +40,14 @@ const Users = () => {
                     </select>
                 </div>
                 <div className="col-md-4 my-2">
-                    <select className="form-control" onChange={e => setUsersPerPage(e.target.value)}>
-                        <option disabled selected hidden>Set User Per Page</option>
+                    <select
+                        className="form-control"
+                        defaultValue={localStorage.getItem('usersPerPage') || "setUsers"}
+                        onChange={e => {
+                            setUsersPerPage(e.target.value);
+                            localStorage.setItem('usersPerPage', e.target.value);
+                        }}>
+                        <option value="setUsers" disabled hidden>Set Users Per Page</option>
                         <option value="3">3</option>
                         <option value="5">5</option>
                         <option value="all">All</option>

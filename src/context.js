@@ -15,7 +15,7 @@ export const ContextProvider = ({ children }) => {
             })
     }, []);
     // sorting 
-    const [sortBy, setSortBy] = useState(null)
+    const [sortBy, setSortBy] = useState(localStorage.getItem('sortBy') || null)
     switch (sortBy) {
         case 'nameAsc':
             users.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
@@ -34,7 +34,7 @@ export const ContextProvider = ({ children }) => {
     }
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage, setUsersPerPage] = useState('all');
+    const [usersPerPage, setUsersPerPage] = useState(localStorage.getItem('usersPerPage') || 'all');
 
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
